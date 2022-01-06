@@ -87,7 +87,6 @@ JwtGenerator::Status JwtGenerator::getKeyType(
 {
     mbedtls_pk_context pk;
     mbedtls_pk_init(&pk);
-
     int rc = 0;
 
     if((rc = mbedtls_pk_parse_key(&pk, (unsigned char *)private_key_pem,
@@ -96,7 +95,7 @@ JwtGenerator::Status JwtGenerator::getKeyType(
     }
 
     *t_pk = mbedtls_pk_get_type(&pk);
-
+    mbedtls_pk_free(&pk);
     return SUCCESS;
 }
 
