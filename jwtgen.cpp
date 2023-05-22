@@ -15,6 +15,11 @@
 
 #define LEN_EOS    1         // Length of end of string, i.e. length of '\0'
 
+
+static void translate_to_url_safe(char* buf, const size_t buf_len){
+
+}
+
 JwtGenerator::Status JwtGenerator::getJwt(char* buf, const size_t buf_len, 
     size_t *olen, const char* private_key_pem, const char* aud, const time_t & iat,
     const time_t & exp)
@@ -114,6 +119,8 @@ JwtGenerator::Status JwtGenerator::getHeaderBase64(
         // rc == MBEDTLS_ERR_BASE64_BUFFER_TOO_SMALL
         return ERROR_BUFFER_SIZE_NOT_ENOUGH;
     }
+     // Translate to url-safe alphabet
+    translate_to_url_safe(buf, buf_len);
     return SUCCESS;
 }
 
@@ -153,6 +160,9 @@ JwtGenerator::Status JwtGenerator::getClaimBase64(
     }
     // Delete the temporary memory area
     delete claim;
+
+    translate_to_url_safe(buf, buf_len);
+
 
     return SUCCESS;
 }
@@ -221,6 +231,8 @@ JwtGenerator::Status JwtGenerator::getSignatureBase64(
             (const unsigned char*)sign, sig_len);
     tr_debug("Base64(sign): %.*s", olen, buf);
     delete sign;
+
+    translate_to_url_safe(buf, buf_len);
 
     return SUCCESS;
 }
