@@ -17,7 +17,19 @@
 
 
 static void translate_to_url_safe(char* buf, const size_t buf_len){
-
+    size_t i = 0;
+    for (; i < buf_len; i++) {
+        switch (buf[i]) {
+            case '+':
+            buf[i] = '-';
+            break;
+        case '/':
+            buf[i] = '_';
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 JwtGenerator::Status JwtGenerator::getJwt(char* buf, const size_t buf_len, 
