@@ -21,13 +21,16 @@ static void translate_to_url_safe(char* buf, const size_t buf_len){
     for (; i < buf_len; i++) {
         switch (buf[i]) {
             case '+':
-            buf[i] = '-';
-            break;
-        case '/':
-            buf[i] = '_';
-            break;
-        default:
-            break;
+                buf[i] = '-';
+                break;
+            case '/':
+                buf[i] = '_';
+                break;
+            case '=':
+                buf[i] = '\0';
+                break;
+            default:
+                break;
         }
     }
 }
